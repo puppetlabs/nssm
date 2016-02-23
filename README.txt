@@ -685,6 +685,7 @@ Thanks to Hadrien Kohl for suggesting to disable the console window's menu.
 Thanks to Allen Vailliencourt for noticing bugs with configuring the service to
 run under a local user account.
 Thanks to Sam Townsend for noticing a regression with TerminateProcess().
+Thanks to Paul Baxter and Mathias Breiner for help with Visual Studio 2015.
 
 Licence
 -------
