@@ -1,0 +1,43 @@
+version: 2.24.{build}
+clone_depth: 10
+matrix:
+  fast_finish: false
+
+environment:
+  matrix:
+    # VS 2017 + SDK 8.1 - Primary x64 target
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PlatformToolset: v141
+      TargetPlatformVersion: 8.1
+      Platform: x64
+    # VS 2017 + SDK 8.1 - Primary x86 target
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PlatformToolset: v141
+      TargetPlatformVersion: 8.1
+      Platform: Win32
+    # VS 2015 + SDK 8.1
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PlatformToolset: v140
+      TargetPlatformVersion: 8.1
+      Platform: x64
+    # VS 2017 + SDK 10
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PlatformToolset: v141
+      TargetPlatformVersion: 10.0.15063.0
+      Platform: x64
+
+before_build:
+- |
+    chcp
+    SET
+
+build_script:
+  - msbuild nssm.vcxproj /detailedsummary /p:Configuration=Release /p:Platform=%Platform% /p:PlatformToolset=%PlatformToolset% /p:TargetPlatformVersion=%TargetPlatformVersion%
+
+notifications:
+  - provider: Email
+    to:
+    - nobody@nowhere.com
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
