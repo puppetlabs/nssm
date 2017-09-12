@@ -17,9 +17,13 @@ set n=%n:~0,-1%
 call set version=%%version:%n%-%commit%=%%
 set version=%version:~0,-1%
 
-@rem Find major and minor.
+@rem Find major and minor and patch
 set minor=%version:*.=%
 call set major=%%version:.%minor%=%%
+@rem Set patch only if minor has a .
+if not x%minor:.=%==x%minor% set patch=%minor:*.=%
+if not x%minor:.=%==x%minor% call set minor=%%minor:.%patch%=%%
+if "%patch%" == "" set patch=0
 
 @rem Build flags.
 set flags=0L
@@ -40,7 +44,7 @@ if "%BUILD_ID%" == "" set year=
 
 @rem Create version.h.
 @echo>version.h.new #define NSSM_VERSION _T("%description%")
-@echo>>version.h.new #define NSSM_VERSIONINFO %major%,%minor%,%n%,%BUILD_NUMBER%
+@echo>>version.h.new #define NSSM_VERSIONINFO %major%,%minor%,%patch%,%n%
 @echo>>version.h.new #define NSSM_DATE _T("%DATE%")
 @echo>>version.h.new #define NSSM_FILEFLAGS %flags%
 @echo>>version.h.new #define NSSM_COPYRIGHT _T("Public Domain; Author Iain Patterson 2003-%year%")
