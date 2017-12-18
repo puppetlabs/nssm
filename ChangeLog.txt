@@ -1,3 +1,5 @@
+foobar
+
 Changes since 2.23
 ------------------
   * NSSM once again calls TerminateProcess() correctly.
@@ -141,7 +143,7 @@ Changes since 2.7
     successfully but exits too soon.  The default value of "too soon" is
     1500 milliseconds.  This can be configured by adding a DWORD value
     AppThrottle to the registry.
-    
+
     Handle resume messages from the service console to restart the
     application immediately even if it is throttled.
 
@@ -186,7 +188,7 @@ Changes since 2.4
     Suiciding when the application exits 0 will cause recovery actions to be
     taken.  Usually this is inappropriate.  Only suicide if there is an
     explicit AppExit value for 0 in the registry.
-    
+
     Technically such behaviour could be abused to do something like run a
     script after successful completion of a service but in most cases a
     suicide is undesirable when no actual failure occurred.
