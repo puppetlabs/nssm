@@ -38,22 +38,24 @@ TCHAR *message_string(unsigned long error) {
 /* Log a message to the Event Log */
 void log_event(unsigned short type, unsigned long id, ...) {
   va_list arg;
-  int count;
-  TCHAR *s;
   TCHAR *strings[NSSM_NUM_EVENT_STRINGS];
+  TCHAR buffer[NSSM_ERROR_BUFSIZE];
+
+  TCHAR *format = message_string(id);
+  if (!format) return;
 
   /* Open event log */
   HANDLE handle = RegisterEventSource(0, NSSM_SOURCE);
   if (! handle) return;
 
   /* Log it */
-  count = 0;
   va_start(arg, id);
-  while ((s = va_arg(arg, TCHAR *)) && count < NSSM_NUM_EVENT_STRINGS - 1) strings[count++] = s;
-  strings[count] = 0;
+  _vsntprintf_s(buffer, _countof(buffer), _TRUNCATE, format, arg);
+  strings[0] = buffer;
+  strings[1] = 0;
+  ReportEvent(handle, type, 0, type, 0, 1, 0, (const TCHAR **) strings, 0);
   va_end(arg);
-  ReportEvent(handle, type, 0, id, 0, count, 0, (const TCHAR **) strings, 0);
-
+  LocalFree(format);
   /* Close event log */
   DeregisterEventSource(handle);
 }
