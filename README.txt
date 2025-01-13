@@ -1,6 +1,8 @@
 NSSM: The Non-Sucking Service Manager
 Version 2.24, 2014-08-31
 
+This repository is archived and Perforce will no longer be updating this repository. For more information, see [this Puppet blog post](https://www.puppet.com/blog/open-source-puppet-updates-2025).
+
 NSSM is a service helper program similar to srvany and cygrunsrv.  It can 
 start any application as an NT service and will restart the service if it 
 fails for any reason.
